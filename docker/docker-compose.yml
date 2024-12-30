@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: taskapp
+      POSTGRES_PASSWORD: taskapp123
+      POSTGRES_DB: taskmanagement
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # Uncomment when ready to deploy
+  # frontend:
+  #   build:
+  #     context: ../frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=development
+  #   volumes:
+  #     - ../frontend:/app
+  #     - /app/node_modules
+
+  # backend:
+  #   build:
+  #     context: ../backend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "4000:4000"
+  #   environment:
+  #     - NODE_ENV=development
+  #     - DATABASE_URL=postgresql://taskapp:taskapp123@postgres:5432/taskmanagement
+  #     - REDIS_URL=redis://redis:6379
+  #   volumes:
+  #     - ../backend:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     - postgres
+  #     - redis
+
+volumes:
+  postgres_data:
+  redis_data: 
